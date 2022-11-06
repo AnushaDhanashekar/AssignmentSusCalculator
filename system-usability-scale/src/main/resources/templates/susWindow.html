@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+ $("button").click(function(){  
+ 
+       if($("#table input[type=radio]:checked").length != 10){
+       alert("Please answer all the questions.");
+       return;
+       }
+var arrayOfEle = [];
+        let singleEle ={
+            "id": "",
+            "option":""
+        };
+        for(i=1; i<=10; i++){
+
+        singleEle.id =  i;
+      var selectedAnswer = document.getElementsByName("radio_"+ i);
+		for(let j of selectedAnswer){		
+	if(j.checked )singleEle.option = j.id;	
+	}  
+	arrayOfEle.push(singleEle);
+        singleEle ={
+            "id": "",
+            "option":""
+        };
+        }
+
+        $.ajax({
+            url : "./saveCompute",
+            data : JSON.stringify(arrayOfEle),
+            dataType: "text",
+            cache : false,
+            method : "POST",
+            contentType: "application/json; charset=utf-8",
+            success : function(data){
+                if(data == "success"){
+                location.reload();
+                }
+            },
+            error : function(jhXHR){
+                alert(" Something went wrong!! "+jhXHR );
+            }
+        })
+});
+});
+</script>
+<style>
+table.GeneratedTable {
+	width: 100%;
+	background-color: #ffffff;
+	border-collapse: collapse;
+	border-width: 2px;
+	border-color: #ffcc00;
+	border-style: solid;
+	color: #000000;
+}
+
+table.GeneratedTable td, table.GeneratedTable th {
+	border-width: 2px;
+	border-color: #ffcc00;
+	border-style: solid;
+	padding: 3px;
+}
+
+table.GeneratedTable thead {
+	background-color: #ffcc00;
+}
+</style>
+</head>
+<body>
+
+	<div class="container">
+		<div class="row">
+			<h1>SUS Questionary</h1>
+		</div>
+		<div class="row">
+			<table class="GeneratedTable" id="table">
+				<thead>
+					<tr>
+						<th rowspan="2">Serial No</th>
+						<th rowspan="2">Question</th>
+						<th colspan="5"></th>
+					</tr>
+					<tr>
+						<th>Strongly Disagree</th>
+						<th>Disagree</th>
+						<th>Unsure</th>
+						<th>Agree</th>
+						<th>Strongly Agree</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:id="(row_ + ${SUSquestionary.id})"
+						th:each="SUSquestionary, sUSquestionariesStat : ${susWindow}">
+						<td th:id="(id_ + ${SUSquestionary.id})"
+							th:name="(id_ + ${SUSquestionary.id})"
+							th:text="${sUSquestionariesStat.count}"></td>
+						<td th:name="questionary" th:text="${SUSquestionary.questionary}"></td>
+
+						<td th:id="(name_ + ${SUSquestionary.id})"><input
+							type="radio" th:name="(radio_ + ${SUSquestionary.id})"
+							id="stronglyDisagree" value="stronglyDisagree" width="40"
+							height="40" /></td>
+						<td th:id="(name_ + ${SUSquestionary.id})"><input
+							type="radio" th:name="(radio_ + ${SUSquestionary.id})"
+							id="disAgree" value="disAgree" width="40" height="40" /></td>
+						<td th:id="(name_ + ${SUSquestionary.id})"><input
+							type="radio" th:name="(radio_ + ${SUSquestionary.id})"
+							id="unsure" value="unsure" width="40" height="40" /></td>
+						<td th:id="(name_ + ${SUSquestionary.id})"><input
+							type="radio" th:name="(radio_ + ${SUSquestionary.id})" id="agree"
+							value="agree" width="40" height="40" /></td>
+						<td th:id="(name_ + ${SUSquestionary.id})"><input
+							type="radio" th:name="(radio_ + ${SUSquestionary.id})"
+							id="stronglyAgree" value="stronglyAgree" width="40" height="40" /></td>
+					</tr>
+					</th:c:forEach>
+
+				</tbody>
+			</table>
+		</div>
+
+		<button type="button" id="submit">Submit</button>
+	</div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<style>
+table.GeneratedTable {
+	width: 100%;
+	background-color: #ffffff;
+	border-collapse: collapse;
+	border-width: 2px;
+	border-color: #ffcc00;
+	border-style: solid;
+	color: #000000;
+}
+
+table.GeneratedTable td, table.GeneratedTable th {
+	border-width: 2px;
+	border-color: #ffcc00;
+	border-style: solid;
+	padding: 3px;
+}
+
+table.GeneratedTable thead {
+	background-color: #ffcc00;
+}
+</style>
+</head>
+
+<body>
+
+	<div class="container">
+		<div class="row">
+			<h1>SUS Global Statistics</h1>
+		</div>
+		<div class="row">
+			<table class="GeneratedTable">
+				<thead>
+					<tr>
+						<th>Number of Evaluations</th>
+						<th>SUS score above average</th>
+						<th>SUS score below average</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td th:id="(id_ + ${susGlobal.totalSessions})"
+							th:name="(id_ + ${susGlobal.totalSessions})"
+							th:text="${susGlobal.totalSessions}"></td>
+						<td th:name="aboveAvg" th:text="${susGlobal.aboveAvgScore}"></td>
+						<td th:name="belowAvg" th:text="${susGlobal.belowAvgScore}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
